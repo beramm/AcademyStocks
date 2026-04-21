@@ -140,7 +140,7 @@ struct ContentView: View {
 
                         ForEach(sampleData) { data in
                             NavigationLink {
-                                detailView(beachIdTarget: data.beachId) 
+                                TempGetData(beachIdTarget: data.beachId) 
                             } label: {
                                 StockListItem(
                                     name: data.name,
