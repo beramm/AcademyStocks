@@ -18,10 +18,10 @@ struct stockItem: Identifiable {
 }
 
 let sampleData: [stockItem] = [
-    stockItem(name: "Dow Jones", company: "Dow Jones Industrial Average", currentPrice: 48000, difference: 237,),
-    stockItem(name: "GE", company: "GE Aerospace", currentPrice: 2800, difference: -10),
-    stockItem(name: "HD", company: "The Home Depot, Inc.", currentPrice: 337.15, difference: -1.76),
-    stockItem(name: "BRK-B", company: "Berkshire Hathaway Inc.", currentPrice: 475.12, difference: 1.03),
+    stockItem(name: "Padang Padang", company: "Pecatu SouthKuta", currentPrice: 48000, difference: 237,),
+    stockItem(name: "Kuta", company: "Pecatu SouthKuta", currentPrice: 2800, difference: -10),
+    stockItem(name: "Dreamland", company: "Pecatu SouthKuta", currentPrice: 337.15, difference: -1.76),
+    stockItem(name: "Balangan", company: "Pecatu SouthKuta", currentPrice: 475.12, difference: 1.03),
 ]
 
 
@@ -35,95 +35,118 @@ struct ContentView: View {
 
     var body: some View {
         NavigationStack {
-
-            List {
-                Menu {
-                    Button("My Symbols") {}
+            ZStack(alignment: .topLeading){
+                //gradient shape
+                Image("gradient")
+                        .resizable()
+                        .scaledToFit()
+                        .ignoresSafeArea()
+                    
+                VStack{
+                    //image
+                    Spacer(minLength:50)
+                    Image("surfer")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 160, height: 160)
+                    //streak info
+                    HStack{
+                        Text("7 Days")
+                        Image(systemName: "flame.fill")
+                            .foregroundStyle(Color(red: 242/255, green: 95/255, blue: 37/255))
+                    }.font(Font.largeTitle.bold())
+                        .fontWeight(Font.Weight.heavy)
+                    
+                        
+                        
+                    Spacer(minLength: 20)
                     Divider()
-                    Button(
-                        "Manage Watchlist",
-                        systemImage: "slider.horizontal.3"
-                    ) {}
-                    Button("New Watchlist", systemImage: "plus") {}
-                } label: {
-                    HStack(spacing: 4) {
-                        Text("My Symbols").bold().font(.title3)
-                        Image(systemName: "chevron.up.chevron.down")
-                            .font(.caption2.weight(.heavy))
+                        .frame(height: 1)
+                        .background(Color.white)
+                        .opacity(0.4)
+                        .frame(width:350)
+                    HStack{
+                        Button() {
+                            
+                        } label :{
+                            Text("Bali").bold(true)
+                            Image(systemName: "mappin.circle.fill")
+                        }.foregroundStyle(Color(.white)).bold(true)
+                            .padding(10)
+                            .glassEffect(.regular)
+                                               
+                        
+                        Spacer()
+                        Button() {
+                            
+                        } label :{
+                            Text("16 April")
+                            Image(systemName: "chevron.right")
+                        }.foregroundStyle(Color(.white))
+                            .fontWeight(.heavy)
+                        
+                    }.padding(10)
+                    
+                    List {
+                        
+                        ForEach(sampleData) { data in
+
+                            StockListItem(name: data.name, company: data.company, currentPrice: data.currentPrice, difference: data.difference)
+                                .swipeActions(edge: .trailing) {
+                                    Button(role: .destructive) {
+                                    } label: {
+                                        Label("Remove", systemImage: "trash")
+                                    }
+                                }
+                                .swipeActions(edge: .trailing) {
+                                    Button {
+                                    } label: {
+                                        Label(
+                                            "Share",
+                                            systemImage: "square.and.arrow.up"
+                                        )
+                                    }
+                                    .tint(.orange)
+                                }
+                                .swipeActions(edge: .trailing) {
+                                    Button {
+                                    } label: {
+                                        Label(
+                                            "Lists",
+                                            systemImage: "list.bullet"
+                                        )
+                                    }
+                                    .tint(.blue)
+                                }
+                                .contextMenu {
+                                    Button(
+                                        "Share Symbol",
+                                        systemImage: "square.and.arrow.up"
+                                    ) {}
+                                    Button("Copy Link", systemImage: "link") {}
+                                    Button(
+                                        "Manage Symbol",
+                                        systemImage: "list.bullet",
+                                    ) {}
+                                } preview: {
+
+                                    HStack {
+                                        Text("Dow Jones")
+                                    }
+                                    .frame(width: 400)
+                                }
+
+                        }
                     }
-                    .font(.subheadline.bold())
-                }
-                .foregroundStyle(.primary)
-                .padding(.horizontal)
-                .padding(.top)
-                .listRowSeparator(.hidden)
-                .listRowInsets(EdgeInsets())
-                ForEach(sampleData) { data in
-
-                    StockListItem(name: data.name, company: data.company, currentPrice: data.currentPrice, difference: data.difference)
-                        .swipeActions(edge: .trailing) {
-                            Button(role: .destructive) {
-                            } label: {
-                                Label("Remove", systemImage: "trash")
-                            }
-                        }
-                        .swipeActions(edge: .trailing) {
-                            Button {
-                            } label: {
-                                Label(
-                                    "Share",
-                                    systemImage: "square.and.arrow.up"
-                                )
-                            }
-                            .tint(.orange)
-                        }
-                        .swipeActions(edge: .trailing) {
-                            Button {
-                            } label: {
-                                Label(
-                                    "Lists",
-                                    systemImage: "list.bullet"
-                                )
-                            }
-                            .tint(.blue)
-                        }
-                        .contextMenu {
-                            Button(
-                                "Share Symbol",
-                                systemImage: "square.and.arrow.up"
-                            ) {}
-                            Button("Copy Link", systemImage: "link") {}
-                            Button(
-                                "Manage Symbol",
-                                systemImage: "list.bullet",
-                            ) {}
-                        } preview: {
-
-                            HStack {
-                                Text("Dow Jones")
-                            }
-                            .frame(width: 400)
-                        }
-
                 }
             }
+
+            
+            
             .listStyle(.plain)
 
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    VStack(alignment: .leading) {
-                        Text("Stocks")
-
-                        Text(Date.now, format: .dateTime.day().month(.wide))
-                            .font(.title2.bold())
-                            .foregroundStyle(.secondary)
-                    }
-                    .font(.title)
-                    .bold()
-                    .fixedSize()
-                }
-                .sharedBackgroundVisibility(.hidden)
-
+                
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
                     Button {
                     } label: {
