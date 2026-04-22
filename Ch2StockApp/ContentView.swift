@@ -12,13 +12,13 @@ import SwiftUI
 struct stockItem: Identifiable {
     var id: UUID = UUID()
     var name: String
-    var company: String
-    var currentPrice: Double
-    var difference: Double
+    var company: String //wave
+    var currentPrice: Double //water temp
+    var difference: Double //air temp
 }
 
 let sampleData: [stockItem] = [
-    stockItem(name: "Padang Padang", company: "Pecatu SouthKuta", currentPrice: 48000, difference: 237,),
+    stockItem(name: "Padang Padang", company: "Pecatu SouthKuta", currentPrice: 48000, difference: 237),
     stockItem(name: "Kuta", company: "Pecatu SouthKuta", currentPrice: 2800, difference: -10),
     stockItem(name: "Dreamland", company: "Pecatu SouthKuta", currentPrice: 337.15, difference: -1.76),
     stockItem(name: "Balangan", company: "Pecatu SouthKuta", currentPrice: 475.12, difference: 1.03),
