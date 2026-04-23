@@ -29,7 +29,7 @@ struct BeachData: Identifiable {
     var wave: Double
     var waterTemp: Double
     var airTemp: Double
-    var windSpeed: Double 
+    var windSpeed: Double
     var precipitation: Double
     var cloudCover: Double
 }
@@ -40,7 +40,6 @@ import Foundation
 // MARK: - Mock Beach Data (Apr 22 – Apr 28, 2026)
 
 // MARK: - Padang Padang 7-Day Hourly Data
-
 
 let mockPadangPadangData: [BeachData] = [
 
@@ -755,7 +754,7 @@ let mockDreamlandData: [BeachData] = [
 ]
 
 
-let dataAll = [mockPadangPadangData,mockKutaData,mockBalanganData,mockDreamlandData ]
+let dataAll = [mockPadangPadangData,mockKutaData,mockBalanganData,mockDreamlandData]
 
 // MARK: - Helper: filter by date string prefix e.g. "2026-04-22"
 extension Array where Element == BeachData {

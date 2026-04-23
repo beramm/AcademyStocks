@@ -10,7 +10,6 @@ import Charts
 import Foundation
 
 
-let exampleData: [BeachData] = mockPadangPadangData
 
 struct DetailView: View {
     var beach: Beach
@@ -24,7 +23,7 @@ struct DetailView: View {
         let now = Date.now
         let currentHour = calendar.component(.hour, from: now)
         
-        let match = mockPadangPadangData.first { entry in
+        let match = item.first { entry in
             guard let entryDate = parseDate(entry.time) else { return false }
             return calendar.isDateInToday(entryDate) &&
                    calendar.component(.hour, from: entryDate) == currentHour
@@ -179,7 +178,7 @@ struct DetailView: View {
                 VStack{
                     Text("Hello from card")
                 }
-                BeachChart(chartColor: (Color(red: 239/255, green:107/255, blue:13/255)), width: 350, height: 150, currentHeight: currentWaveHeight,Data: filterBeachData(mockPadangPadangData, for: currDate),currentHour: Double(Calendar.current.component(.hour, from: .now)),isShowRuleMark: isShowRuleMarker)
+                BeachChart(chartColor: (Color(red: 239/255, green:107/255, blue:13/255)), width: 350, height: 150, currentHeight: currentWaveHeight,Data: filterBeachData(item, for: currDate),currentHour: Double(Calendar.current.component(.hour, from: .now)),isShowRuleMark: isShowRuleMarker)
                 
             }
             .padding(.top, 200)

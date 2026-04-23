@@ -140,7 +140,7 @@ struct ContentView: View {
 
                         ForEach(mockBeaches.enumerated(), id: \.offset) { id,data in
                             NavigationLink {
-                                DetailView(beach: mockBeaches[id-1], item: dataAll[id-1])
+                                DetailView(beach: mockBeaches[id], item: dataAll[id])
                             } label: {
                                 BeachListItem(
                                     name: data.name,
