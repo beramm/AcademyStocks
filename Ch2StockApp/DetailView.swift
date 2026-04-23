@@ -14,7 +14,7 @@ let exampleData: [BeachData] = mockPadangPadangData
 
 struct DetailView: View {
     var beach: Beach
-    var item: BeachData
+    var item: [BeachData]
     @State private var currDate: Date = Calendar.current.startOfDay(for: .now)
     @State var isShowRuleMarker: Bool = true
 
@@ -189,9 +189,4 @@ struct DetailView: View {
     }
 }
 
-#Preview {
-    DetailView(
-        beach: mockBeaches[0],
-        item: mockPadangPadangData[0]
-    )
-}
+

@@ -138,22 +138,22 @@ struct ContentView: View {
 
                     List {
 
-                        ForEach(sampleData) { data in
+                        ForEach(mockBeaches.enumerated(), id: \.offset) { id,data in
                             NavigationLink {
-                                TempGetData(beachIdTarget: data.beachId) 
+                                DetailView(beach: mockBeaches[id-1], item: dataAll[id-1])
                             } label: {
-                                StockListItem(
+                                BeachListItem(
                                     name: data.name,
-                                    company: data.company,
-                                    currentPrice: data.currentPrice,
-                                    difference: data.difference
+                                    address: data.address,
+//                                    currentPrice: data.currentPrice,
+//                                    difference: data.difference
                                 )
                                 .swipeActions(edge: .trailing) {
                                     Button(role: .destructive) {
                                     } label: {
                                         Label("Remove", systemImage: "trash")
                                     }
-                                }
+                                } 
                                 .swipeActions(edge: .trailing) {
                                     Button {
                                     } label: {

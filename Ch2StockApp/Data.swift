@@ -41,6 +41,7 @@ import Foundation
 
 // MARK: - Padang Padang 7-Day Hourly Data
 
+
 let mockPadangPadangData: [BeachData] = [
 
     // MARK: Apr 22
@@ -753,6 +754,8 @@ let mockDreamlandData: [BeachData] = [
     BeachData(beachId: 4, time: "2026-04-28 14:00", wave: 1.45, waterTemp: 30.63, airTemp: 27.85, windSpeed: 1.82, precipitation: 0.00, cloudCover: 100.00),
 ]
 
+
+let dataAll = [mockPadangPadangData,mockKutaData,mockBalanganData,mockDreamlandData ]
 
 // MARK: - Helper: filter by date string prefix e.g. "2026-04-22"
 extension Array where Element == BeachData {
