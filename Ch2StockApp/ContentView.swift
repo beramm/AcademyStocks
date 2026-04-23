@@ -6,11 +6,12 @@
 //
 
 import Charts
+import Foundation
 import SwiftUI
-
 
 struct stockItem: Identifiable {
     var id: UUID = UUID()
+    var beachId: Int
     var name: String
     var company: String //wave
     var currentPrice: Double //water temp
@@ -18,13 +19,58 @@ struct stockItem: Identifiable {
 }
 
 let sampleData: [stockItem] = [
-    stockItem(name: "Padang Padang", company: "Pecatu SouthKuta", currentPrice: 48000, difference: 237),
-    stockItem(name: "Kuta", company: "Pecatu SouthKuta", currentPrice: 2800, difference: -10),
-    stockItem(name: "Dreamland", company: "Pecatu SouthKuta", currentPrice: 337.15, difference: -1.76),
-    stockItem(name: "Balangan", company: "Pecatu SouthKuta", currentPrice: 475.12, difference: 1.03),
+    stockItem(
+        beachId: 1,
+        name: "Padang Padang",
+        company: "Pecatu SouthKuta",
+        currentPrice: 48000,
+        difference: 237,
+    ),
+    stockItem(
+        beachId: 2,
+        name: "Kuta",
+        company: "Pecatu SouthKuta",
+        currentPrice: 2800,
+        difference: -10
+    ),
+    stockItem(
+        beachId: 3,
+        name: "Balangan",
+        company: "Pecatu SouthKuta",
+        currentPrice: 475.12,
+        difference: 1.03
+    ),
+    stockItem(
+        beachId: 4,
+        name: "Dreamland",
+        company: "Pecatu SouthKuta",
+        currentPrice: 337.15,
+        difference: -1.76
+    ),
+    
 ]
 
+struct dataPoint: Identifiable { // 1 hour data of 1 beach
+    var id: UUID = UUID()
+    var beach_id: Int
+    var time: Date
+    var waveHeight: Double
+    var waterTemperature: Double
+    var airTemperature: Double
+    var windSpeed: Double
+    var precipitation: Double
+    var cloudCover: Double
+}
 
+struct beachData{
+    var beachId: Int
+    var datapoints: [dataPoint]
+} // one beach
+
+
+let beaches: [beachData] = [] // beaches
+
+    
 
 
 struct ContentView: View {
@@ -35,63 +81,73 @@ struct ContentView: View {
 
     var body: some View {
         NavigationStack {
-            ZStack(alignment: .topLeading){
+            ZStack(alignment: .topLeading) {
                 //gradient shape
                 Image("gradient")
-                        .resizable()
-                        .scaledToFit()
-                        .ignoresSafeArea()
-                    
-                VStack{
+                    .resizable()
+                    .scaledToFit()
+                    .ignoresSafeArea()
+
+                VStack {
                     //image
-                    Spacer(minLength:50)
+                    Spacer(minLength: 50)
                     Image("surfer")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 160, height: 160)
                     //streak info
-                    HStack{
+                    HStack {
                         Text("7 Days")
                         Image(systemName: "flame.fill")
-                            .foregroundStyle(Color(red: 242/255, green: 95/255, blue: 37/255))
+                            .foregroundStyle(
+                                Color(
+                                    red: 242 / 255,
+                                    green: 95 / 255,
+                                    blue: 37 / 255
+                                )
+                            )
                     }.font(Font.largeTitle.bold())
                         .fontWeight(Font.Weight.heavy)
-                    
-                        
-                        
+
                     Spacer(minLength: 20)
                     Divider()
                         .frame(height: 1)
                         .background(Color.white)
                         .opacity(0.4)
-                        .frame(width:350)
-                    HStack{
-                        Button() {
-                            
-                        } label :{
+                        .frame(width: 350)
+                    HStack {
+                        Button {
+
+                        } label: {
                             Text("Bali").bold(true)
                             Image(systemName: "mappin.circle.fill")
                         }.foregroundStyle(Color(.white)).bold(true)
                             .padding(10)
                             .glassEffect(.regular)
-                                               
-                        
+
                         Spacer()
-                        Button() {
-                            
-                        } label :{
+                        Button {
+
+                        } label: {
                             Text("16 April")
                             Image(systemName: "chevron.right")
                         }.foregroundStyle(Color(.white))
                             .fontWeight(.heavy)
-                        
-                    }.padding(10)
-                    
-                    List {
-                        
-                        ForEach(sampleData) { data in
 
-                            StockListItem(name: data.name, company: data.company, currentPrice: data.currentPrice, difference: data.difference)
+                    }.padding(10)
+
+                    List {
+
+                        ForEach(sampleData) { data in
+                            NavigationLink {
+                                TempGetData(beachIdTarget: data.beachId) 
+                            } label: {
+                                StockListItem(
+                                    name: data.name,
+                                    company: data.company,
+                                    currentPrice: data.currentPrice,
+                                    difference: data.difference
+                                )
                                 .swipeActions(edge: .trailing) {
                                     Button(role: .destructive) {
                                     } label: {
@@ -135,18 +191,16 @@ struct ContentView: View {
                                     }
                                     .frame(width: 400)
                                 }
-
+                            }
                         }
                     }
                 }
             }
 
-            
-            
             .listStyle(.plain)
 
             .toolbar {
-                
+
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
                     Button {
                     } label: {
