@@ -154,8 +154,7 @@ struct DetailView: View {
                                 .fill(Color(red: 239/255, green:107/255, blue:13/255))
                         )
                         .opacity(calendar.isDate(currDate, inSameDayAs: afterTomorrow) ? 1.0 : 0.41)
-                    
-
+                
                 }
 
                 HStack {
@@ -179,7 +178,7 @@ struct DetailView: View {
                     Text("Hello from card")
                 }
                 BeachChart(chartColor: (Color(red: 239/255, green:107/255, blue:13/255)), width: 350, height: 150, currentHeight: currentWaveHeight,Data: filterBeachData(item, for: currDate),currentHour: Double(Calendar.current.component(.hour, from: .now)),isShowRuleMark: isShowRuleMarker)
-                
+                let _ = print("filtered data:", filterBeachData(item, for: currDate)[0])
             }
             .padding(.top, 200)
             .padding(.horizontal)

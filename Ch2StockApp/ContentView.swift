@@ -13,9 +13,9 @@ struct stockItem: Identifiable {
     var id: UUID = UUID()
     var beachId: Int
     var name: String
-    var company: String //wave
-    var currentPrice: Double //water temp
-    var difference: Double //air temp
+    var company: String  //wave
+    var currentPrice: Double  //water temp
+    var difference: Double  //air temp
 }
 
 let sampleData: [stockItem] = [
@@ -47,10 +47,10 @@ let sampleData: [stockItem] = [
         currentPrice: 337.15,
         difference: -1.76
     ),
-    
+
 ]
 
-struct dataPoint: Identifiable { // 1 hour data of 1 beach
+struct dataPoint: Identifiable {  // 1 hour data of 1 beach
     var id: UUID = UUID()
     var beach_id: Int
     var time: Date
@@ -62,16 +62,12 @@ struct dataPoint: Identifiable { // 1 hour data of 1 beach
     var cloudCover: Double
 }
 
-struct beachData{
+struct beachData {
     var beachId: Int
     var datapoints: [dataPoint]
-} // one beach
+}  // one beach
 
-
-let beaches: [beachData] = [] // beaches
-
-    
-
+let beaches: [beachData] = []  // beaches
 
 struct ContentView: View {
 
@@ -138,22 +134,26 @@ struct ContentView: View {
 
                     List {
 
-                        ForEach(mockBeaches.enumerated(), id: \.offset) { id,data in
+                        ForEach(mockBeaches.enumerated(), id: \.offset) {
+                            id,
+                            data in
                             NavigationLink {
-                                DetailView(beach: mockBeaches[id], item: dataAll[id])
+                                DetailView(
+                                    beach: mockBeaches[id],
+                                    item: dataAll[id]
+                                )
                             } label: {
                                 BeachListItem(
                                     name: data.name,
                                     address: data.address,
-//                                    currentPrice: data.currentPrice,
-//                                    difference: data.difference
+                                    item: dataAll[id],
                                 )
                                 .swipeActions(edge: .trailing) {
                                     Button(role: .destructive) {
                                     } label: {
                                         Label("Remove", systemImage: "trash")
                                     }
-                                } 
+                                }
                                 .swipeActions(edge: .trailing) {
                                     Button {
                                     } label: {
@@ -193,11 +193,11 @@ struct ContentView: View {
                                 }
                             }
                         }
-                    }
+                    }.listStyle(.plain)
                 }
             }
 
-            .listStyle(.plain)
+            
 
             .toolbar {
 
@@ -215,7 +215,7 @@ struct ContentView: View {
 
                 }
             }
-        }
+        }.navigationLinkIndicatorVisibility(.hidden)
 
     }
 }

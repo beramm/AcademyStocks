@@ -55,6 +55,7 @@ struct MenuSort: View {
     @Binding var sortOption: orderlistOption
     @Binding var showOption: showListOption
 
+
     @State private var isCurrencyEnabled = false
 
     var body: some View {
