@@ -90,20 +90,8 @@ struct ContentView: View {
                     Image("surfer")
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 160, height: 160)
-                    //streak info
-                    HStack {
-                        Text("7 Days")
-                        Image(systemName: "flame.fill")
-                            .foregroundStyle(
-                                Color(
-                                    red: 242 / 255,
-                                    green: 95 / 255,
-                                    blue: 37 / 255
-                                )
-                            )
-                    }.font(Font.largeTitle.bold())
-                        .fontWeight(Font.Weight.heavy)
+                        .frame(width: 190, height: 190)
+                    
 
                     Spacer(minLength: 20)
                     Divider()
@@ -125,7 +113,7 @@ struct ContentView: View {
                         Button {
 
                         } label: {
-                            Text("16 April")
+                            Text(Date.now, format: .dateTime.day().month(.wide))
                             Image(systemName: "chevron.right")
                         }.foregroundStyle(Color(.white))
                             .fontWeight(.heavy)

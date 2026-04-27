@@ -18,6 +18,7 @@ struct DetailView: View {
     @State private var sharedDragHour: Double? = nil
     @State private var sharedWaveHeight: Double? = nil
     @State private var sharedWindSpeed: Double? = nil
+    
 
     var currentWaveHeight: Double {
         let calendar = Calendar.current
@@ -413,27 +414,6 @@ struct DetailView: View {
                                 dragHour: $sharedDragHour,
 
                                 
-                            )
-                        }
-
-                        Spacer(minLength: 25)
-                        VStack(alignment: .leading) {
-                            Text("WIND SPEED")
-                                .font(Font.title3.bold())
-                            BeachWindChart(
-                                chartColor: (Color(.blue)),
-                                width: 350,
-                                height: 150,
-                                currentHeight: currentSpeed,
-                                Data: filterBeachData(item, for: currDate),
-                                currentHour: Double(
-                                    Calendar.current.component(
-                                        .hour,
-                                        from: .now
-                                    )
-                                ),
-                                isShowRuleMark: isShowRuleMarker,
-                                dragHour: $sharedDragHour,
                             )
                         }
                     }
