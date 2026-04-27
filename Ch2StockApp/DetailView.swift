@@ -14,6 +14,10 @@ struct DetailView: View {
     var item: [BeachData]
     @State private var currDate: Date = Calendar.current.startOfDay(for: .now)
     @State var isShowRuleMarker: Bool = true
+    
+    @State private var sharedDragHour: Double? = nil
+    @State private var sharedWaveHeight: Double? = nil
+    @State private var sharedWindSpeed: Double? = nil
 
     var currentWaveHeight: Double {
         let calendar = Calendar.current
@@ -43,30 +47,43 @@ struct DetailView: View {
         return match?.windSpeed ?? 0.0
     }
 
-    var currentWatertemp: Int {
-        let calendar = Calendar.current
-        let now = Date.now
-        let currentHour = calendar.component(.hour, from: now)
+    var activeWaterTemp: Int {
+        let filtered = filterBeachData(item, for: currDate)
 
-        let match = item.first { entry in
-            guard let entryDate = parseDate(entry.time) else { return false }
-            return calendar.isDateInToday(entryDate)
-                && calendar.component(.hour, from: entryDate) == currentHour
+        if let entry = dataForHour(sharedDragHour, in: filtered) {
+            return Int(entry.waterTemp)
         }
-        return Int(match?.waterTemp ?? 0.0)
+
+        let currentHour = Double(Calendar.current.component(.hour, from: .now))
+        if let entry = dataForHour(currentHour, in: filtered) {
+            return Int(entry.waterTemp)
+        }
+
+        return 0
     }
 
-    var currentAirtemp: Int {
-        let calendar = Calendar.current
-        let now = Date.now
-        let currentHour = calendar.component(.hour, from: now)
+    var activeAirTemp: Int {
+        let filtered = filterBeachData(item, for: currDate)
 
-        let match = item.first { entry in
-            guard let entryDate = parseDate(entry.time) else { return false }
-            return calendar.isDateInToday(entryDate)
-                && calendar.component(.hour, from: entryDate) == currentHour
+        if let entry = dataForHour(sharedDragHour, in: filtered) {
+            return Int(entry.airTemp)
         }
-        return Int(match?.airTemp ?? 0.0)
+
+        let currentHour = Double(Calendar.current.component(.hour, from: .now))
+        if let entry = dataForHour(currentHour, in: filtered) {
+            return Int(entry.airTemp)
+        }
+
+        return 0
+    }
+    
+    func dataForHour(_ hour: Double?, in data: [BeachData]) -> BeachData? {
+        guard let hour else { return nil }
+        
+        let index = Int(hour.rounded())
+        let clampedIndex = min(max(index, 0), data.count - 1)
+        
+        return data[clampedIndex]
     }
 
     private func parseDate(_ string: String) -> Date? {
@@ -112,6 +129,9 @@ struct DetailView: View {
         let afterTomorrow =
             calendar.date(byAdding: .day, value: 2, to: today) ?? today
         let isToday = Calendar.current.isDateInToday(currDate)
+        
+        
+        
         ZStack(alignment: .topLeading) {
             VStack {
                 Image("PadangBeach")
@@ -282,7 +302,7 @@ struct DetailView: View {
                                     .padding(EdgeInsets(top: 4, leading: 8, bottom: 2, trailing: 8))
                                     
                                     Text(
-                                        "\(currentWatertemp)° C"
+                                        "\(activeWaterTemp)° C"
                                     ).font(.system(size: 42) .bold())
                                         .frame(maxWidth: .infinity, alignment: .center)
 
@@ -328,7 +348,7 @@ struct DetailView: View {
                                     .padding(EdgeInsets(top: 4, leading: 8, bottom: 2, trailing: 8))
                                     
                                     Text(
-                                        "\(currentAirtemp)° C"
+                                        "\(activeAirTemp)° C"
                                     ).font(.system(size: 42) .bold())
                                         .frame(maxWidth: .infinity, alignment: .center)
 
@@ -368,7 +388,8 @@ struct DetailView: View {
                                         from: .now
                                     )
                                 ),
-                                isShowRuleMark: isToday
+                                isShowRuleMark: isToday,
+                                dragHour: $sharedDragHour,
                             )
                         }
 
@@ -388,7 +409,10 @@ struct DetailView: View {
                                         from: .now
                                     )
                                 ),
-                                isShowRuleMark: isShowRuleMarker
+                                isShowRuleMark: isShowRuleMarker,
+                                dragHour: $sharedDragHour,
+
+                                
                             )
                         }
 
@@ -408,7 +432,8 @@ struct DetailView: View {
                                         from: .now
                                     )
                                 ),
-                                isShowRuleMark: isShowRuleMarker
+                                isShowRuleMark: isShowRuleMarker,
+                                dragHour: $sharedDragHour,
                             )
                         }
                     }

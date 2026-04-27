@@ -21,8 +21,7 @@ struct BeachWindChart: View {
 
     var isShowRuleMark: Bool = true
 
-    @State private var dragHour: Double? = nil
-    @State private var dragHeight: Double? = nil
+    @Binding var dragHour: Double?
 
     var body: some View {
         let minHeight = Data.map { $0.windSpeed }.min() ?? 0
@@ -35,7 +34,11 @@ struct BeachWindChart: View {
         }()
 
         let activeHeight: Double? = {
-            if let dragHeight { return dragHeight }
+            if let dragHour {
+                let index = Int(dragHour.rounded())
+                let clampedIndex = min(max(index, 0), Data.count - 1)
+                return Data[clampedIndex].windSpeed
+            }
             return isShowRuleMark ? currentHeight : nil
         }()
 
@@ -103,15 +106,11 @@ struct BeachWindChart: View {
                 .onChanged { value in
                     if let hour: Double = chart.value(atX: value.location.x) {
                         let clampedHour = min(max(hour, 0), 23)
-                        let index = Int(clampedHour.rounded())
-                        let clampedIndex = min(max(index, 0), Data.count - 1)
                         dragHour = clampedHour
-                        dragHeight = Data[clampedIndex].windSpeed
                     }
                 }
                 .onEnded { _ in
                     dragHour = nil
-                    dragHeight = nil
                 }
         }
         .chartXAxis(showAxis ? .automatic : .hidden)
