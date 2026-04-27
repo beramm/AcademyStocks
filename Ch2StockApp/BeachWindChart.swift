@@ -1,13 +1,14 @@
-import Charts
 //
 //  BeachChart.swift
 //  Ch2StockApp
 //
 //  Created by Keira on 21/04/26.
 //
-import SwiftUI
 
-struct BeachChart: View {
+import SwiftUI
+import Charts
+
+struct BeachWindChart: View {
 
     var chartColor: Color
     var width: CGFloat
@@ -18,14 +19,14 @@ struct BeachChart: View {
     var Data: [BeachData]
     var currentHour: Double
 
-    var isShowRuleMark: Bool = true 
+    var isShowRuleMark: Bool = true
 
     @State private var dragHour: Double? = nil
     @State private var dragHeight: Double? = nil
 
     var body: some View {
-        let minHeight = Data.map { $0.wave }.min() ?? 0
-        let maxHeight = Data.map { $0.wave }.max() ?? 0
+        let minHeight = Data.map { $0.windSpeed }.min() ?? 0
+        let maxHeight = Data.map { $0.windSpeed }.max() ?? 0
         let padding = (maxHeight - minHeight) * 0.1
 
         let activeHour: Double? = {
@@ -42,7 +43,7 @@ struct BeachChart: View {
 
             AreaMark(
                 x: .value("time", index),
-                y: .value("height", item.wave)
+                y: .value("height", item.windSpeed)
             )
             .foregroundStyle(
                 LinearGradient(
@@ -54,7 +55,7 @@ struct BeachChart: View {
 
             LineMark(
                 x: .value("time", index),
-                y: .value("height", item.wave)
+                y: .value("height", item.windSpeed)
             )
             .foregroundStyle(chartColor)
             .lineStyle(StrokeStyle(lineWidth: 3))
@@ -89,7 +90,6 @@ struct BeachChart: View {
                     }
                 }
             }
-            
 
         }
         .frame(maxWidth: width, maxHeight: height)
@@ -106,7 +106,7 @@ struct BeachChart: View {
                         let index = Int(clampedHour.rounded())
                         let clampedIndex = min(max(index, 0), Data.count - 1)
                         dragHour = clampedHour
-                        dragHeight = Data[clampedIndex].wave
+                        dragHeight = Data[clampedIndex].windSpeed
                     }
                 }
                 .onEnded { _ in
